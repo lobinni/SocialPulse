@@ -77,7 +77,7 @@ export default function DashboardOverview() {
         </div>
         <p className="mt-3 text-[10px] text-dark-500">
           * Gas prices estimated at $0.15/GEN. Get testnet GEN from{" "}
-          <a href="https://faucet.genlayer.com" target="_blank" rel="noopener noreferrer" className="text-amber-400 hover:underline">
+          <a href="https://testnet-faucet.genlayer.foundation/" target="_blank" rel="noopener noreferrer" className="text-amber-400 hover:underline">
             GenLayer Faucet
           </a>
         </p>

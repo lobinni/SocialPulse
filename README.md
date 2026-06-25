@@ -29,7 +29,7 @@ A comprehensive social intelligence dashboard for tracking and analyzing the Gen
 | **Follower Growth** | Track @GenLayer follower analytics | 0.0028 GEN | ~$0.00042 |
 | **Mindshare Rankings** | Who dominates the @GenLayer conversation? | 0.0042 GEN | ~$0.00063 |
 
-> 💡 **Note:** Gas fees are estimated at $0.15/GEN. Get free testnet GEN from [GenLayer Faucet](https://faucet.genlayer.com).
+> 💡 **Note:** Gas fees are estimated at $0.15/GEN. Get free testnet GEN from [GenLayer Faucet](https://testnet-faucet.genlayer.foundation/).
 
 ### 𝕏 X (Twitter) Integration
 - Connect your X account to view personalized mindshare data
@@ -42,7 +42,7 @@ A comprehensive social intelligence dashboard for tracking and analyzing the Gen
 
 - [Node.js](https://nodejs.org/) 18+ 
 - [MetaMask](https://metamask.io/) browser extension
-- GEN tokens for gas fees (get from [GenLayer Faucet](https://faucet.genlayer.com))
+- GEN tokens for gas fees (get from [GenLayer Faucet](https://testnet-faucet.genlayer.foundation/))
 
 ### Installation
 
@@ -180,7 +180,7 @@ Every action that queries or modifies data requires a MetaMask signature:
 - [GenLayer Documentation](https://docs.genlayer.com)
 - [GenLayer Studio](https://studio.genlayer.com)
 - [GenLayerJS SDK](https://docs.genlayer.com/api-references/genlayer-js)
-- [GenLayer Faucet](https://faucet.genlayer.com)
+- [GenLayer Faucet](https://testnet-faucet.genlayer.foundation/)
 - [GenLayer Twitter](https://x.com/GenLayer)
 
 ## 🔗 Contract Addresses
