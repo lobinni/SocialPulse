@@ -1,4 +1,5 @@
 import { TrendingUp, Users, MessageSquare, Eye, ArrowUpRight, ArrowDownRight, ExternalLink, Fuel } from "lucide-react";
+import { isContractConfigured, getContractAddress } from "../services/contract";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { sentimentTimeline, topicTrends } from "../data/mockData";
 import { formatNumber } from "../utils/format";
@@ -45,6 +46,28 @@ export default function DashboardOverview() {
         >
           <span className="text-base">🧬</span> GenLayer Studio <ExternalLink size={10} />
         </a>
+      </div>
+
+      {/* Contract Status */}
+      <div className={`rounded-xl border p-4 flex items-center justify-between ${isContractConfigured() ? "border-emerald-500/20 bg-emerald-500/5" : "border-amber-500/20 bg-amber-500/5"}`}>
+        <div className="flex items-center gap-3">
+          <span className="text-lg">{isContractConfigured() ? "📜" : "⚠️"}</span>
+          <div>
+            <p className="text-xs font-medium text-white">
+              {isContractConfigured() ? "Intelligent Contract Connected" : "Contract Not Deployed"}
+            </p>
+            <p className="text-[10px] text-dark-400 font-mono">
+              {isContractConfigured()
+                ? `${getContractAddress().slice(0, 10)}...${getContractAddress().slice(-8)}`
+                : "Deploy with: npx tsx contracts/deploy.ts"}
+            </p>
+          </div>
+        </div>
+        {isContractConfigured() && (
+          <a href={`https://explorer-bradbury.genlayer.com/address/${getContractAddress()}`} target="_blank" rel="noopener noreferrer" className="text-[10px] text-emerald-400 hover:underline flex items-center gap-1">
+            Explorer <ExternalLink size={9} />
+          </a>
+        )}
       </div>
 
       {/* Network Status Bar */}

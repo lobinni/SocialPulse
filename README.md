@@ -1,223 +1,179 @@
-# 🧬 SocialPulse — Social Intelligence Dashboard
+# 🧬 SocialPulse — GenLayer Social Intelligence Dashboard
 
-> Powered by [GenLayer](https://genlayer.com) — The Intelligence Layer of the Internet
-
-A comprehensive social intelligence dashboard for tracking and analyzing the GenLayer ecosystem. Built with React, TypeScript, and integrated with the GenLayer blockchain network via MetaMask.
+A social intelligence dApp built on [GenLayer](https://genlayer.com) — the AI-native blockchain. The project includes a **real Intelligent Contract** deployed on GenLayer Bradbury Testnet that fetches live data from X (Twitter), analyzes sentiment using LLMs, and computes mindshare rankings — all verified on-chain through validator consensus.
 
 ![GenLayer](https://img.shields.io/badge/GenLayer-Bradbury_Testnet-purple)
-![React](https://img.shields.io/badge/React-19.x-blue)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)
-![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-4.x-cyan)
+![React](https://img.shields.io/badge/React-19-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-## ✨ Features
+---
 
-### 🔗 GenLayer Blockchain Integration
-- **MetaMask Wallet Connection** — Connect your MetaMask wallet to interact with GenLayer
-- **Automatic Chain Addition** — One-click add GenLayer Bradbury Testnet to MetaMask on first connection
-- **On-Chain Transactions** — All actions are signed and verified on GenLayer network
-- **Real-Time Network Status** — Monitor chain ID, block height, and connection status
+## 📜 Intelligent Contract
 
-### 📊 Social Intelligence Tools
+The core of this project is `contracts/social_intelligence.py` — a Python Intelligent Contract running on GenLayer that uses:
 
-| Feature | Description | Gas Fee | USD Est. |
-|---------|-------------|---------|----------|
-| **Search Posts** | Search @GenLayer posts from X with sentiment analysis | 0.0012 GEN | ~$0.00018 |
-| **Find People** | Discover GenLayer ecosystem influencers | 0.0008 GEN | ~$0.00012 |
-| **Profile Lookup** | View detailed Twitter/X profiles | 0.0015 GEN | ~$0.00023 |
-| **Tweet Timeline** | Chronological feed of ecosystem accounts | 0.0020 GEN | ~$0.00030 |
-| **Project Sentiment** | AI-powered sentiment analysis via Intelligent Contracts | 0.0035 GEN | ~$0.00053 |
-| **Follower Growth** | Track @GenLayer follower analytics | 0.0028 GEN | ~$0.00042 |
-| **Mindshare Rankings** | Who dominates the @GenLayer conversation? | 0.0042 GEN | ~$0.00063 |
+| GenLayer Feature | Usage |
+|---|---|
+| `gl.Contract` | Contract class inheriting GenLayer base |
+| `gl.get_webpage()` | Fetches live X/Twitter data on-chain without oracles |
+| `gl.exec_prompt()` | Calls LLM for sentiment analysis and mindshare ranking |
+| `gl.eq_principle_strict_eq()` | Validator consensus on non-deterministic outputs |
+| `@gl.public.write` | 4 write methods — `fetch_genlayer_posts`, `analyze_sentiment`, `analyze_mindshare`, `search_topic` |
+| `@gl.public.view` | 5 read methods — `get_latest_posts`, `get_sentiment`, `get_mindshare`, `get_stats`, `get_all_data` |
 
-> 💡 **Note:** Gas fees are estimated at $0.15/GEN. Get free testnet GEN from [GenLayer Faucet](https://testnet-faucet.genlayer.foundation/).
+### How Consensus Works
 
-### 𝕏 X (Twitter) Integration
-- Connect your X account to view personalized mindshare data
-- Track your influence ranking in the GenLayer ecosystem
-- View weekly mindshare trends and top topics
+```
+User signs tx via MetaMask
+  → Transaction submitted to GenLayer Bradbury Testnet
+    → Multiple validators independently:
+        1. Fetch webpage data (gl.get_webpage)
+        2. Run LLM analysis (gl.exec_prompt)
+        3. Produce output
+    → Validators compare outputs (gl.eq_principle_strict_eq)
+    → If equivalent → result accepted & stored on-chain
+    → Frontend reads result via view method (free)
+```
 
-## 🚀 Getting Started
+---
+
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) 18+ 
+- [Node.js](https://nodejs.org/) 18+
 - [MetaMask](https://metamask.io/) browser extension
-- GEN tokens for gas fees (get from [GenLayer Faucet](https://testnet-faucet.genlayer.foundation/))
+- GEN tokens from [GenLayer Faucet](https://testnet-faucet.genlayer.foundation/)
 
-### Installation
+### 1. Clone & Install
 
 ```bash
-# Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/YOUR_USERNAME/socialpulse.git
 cd socialpulse
-
-# Install dependencies
 npm install
+```
+
+### 2. Deploy the Intelligent Contract
+
+```bash
+# Fund your wallet first:
+# → https://testnet-faucet.genlayer.foundation/
+
+# Deploy to Bradbury Testnet
+PRIVATE_KEY=0xYourPrivateKey npx tsx contracts/deploy.ts
+```
+
+The script will output your contract address:
+```
+✅ Contract deployed successfully!
+📍 Contract address: 0x1234...abcd
+```
+
+### 3. Configure & Run
+
+```bash
+# Create env file
+cp .env.example .env
+
+# Edit .env — paste your contract address
+# VITE_CONTRACT_ADDRESS=0x1234...abcd
 
 # Start development server
 npm run dev
 ```
 
-### Build for Production
+### 4. Connect MetaMask
 
-```bash
-npm run build
-```
+1. Open the app in your browser
+2. Click **Connect** → MetaMask will prompt to add **GenLayer Bradbury Testnet**
+3. Approve the network addition
+4. You're connected! Every action is now signed on-chain.
 
-## 🔧 GenLayer Network Configuration
+---
 
-### Bradbury Testnet (Default - Recommended)
+## 🔧 GenLayer Bradbury Testnet
 
 | Setting | Value |
-|---------|-------|
+|---|---|
 | **Network Name** | GenLayer Bradbury Testnet |
-| **Chain ID** | 4221 (0x107D) |
-| **RPC URL** | https://rpc-bradbury.genlayer.com |
-| **Currency Symbol** | GEN |
-| **Block Explorer** | https://explorer-bradbury.genlayer.com |
+| **Chain ID** | 4221 (`0x107D`) |
+| **RPC URL** | `https://rpc-bradbury.genlayer.com` |
+| **Currency** | GEN |
+| **Block Explorer** | `https://explorer-bradbury.genlayer.com` |
+| **Faucet** | [testnet-faucet.genlayer.foundation](https://testnet-faucet.genlayer.foundation/) |
 
-> 💡 **Note:** When you first connect MetaMask, the app will automatically prompt you to add the GenLayer Bradbury Testnet.
+---
 
-### Studionet (Development)
+## 📊 Features
 
-| Setting | Value |
-|---------|-------|
-| **Network Name** | GenLayer Studionet |
-| **Chain ID** | 61999 (0xF21F) |
-| **RPC URL** | https://studio.genlayer.com/api |
-| **Currency Symbol** | GEN |
-| **Block Explorer** | https://genlayer-explorer.vercel.app |
+### Dashboard
+- Network status (chain ID, block height, validators)
+- Contract connection status with explorer link
+- Sentiment charts (area, pie)
+- Trending topics with engagement data
+- Gas fee reference table
 
-### Asimov Testnet (Legacy)
+### Search Posts
+- Fetch all @GenLayer posts (requires contract call + gas)
+- Sentiment analysis per post (positive / neutral / negative)
+- Mindshare sidebar ranking contributors
+- Filter by text, sentiment, topic
+- Supports live X API data via optional proxy
 
-| Setting | Value |
-|---------|-------|
-| **Network Name** | GenLayer Asimov Testnet |
-| **Chain ID** | 4221 (0x107D) |
-| **RPC URL** | https://rpc-asimov.genlayer.com |
-| **Currency Symbol** | GEN |
-| **Block Explorer** | https://explorer-asimov.genlayer.com |
+### Find People
+- Browse X users who post about @GenLayer
+- Click user → pay gas → see all their GenLayer posts
+- Per-user mindshare score, rank, sentiment breakdown
+- Influence score and topic tags
 
-## 📁 Project Structure
+### Profiles (My Profile + Explore)
+- **My Profile**: Connect X handle → view your GenLayer posts, mindshare score, weekly trend chart, sentiment breakdown
+- **Explore**: Browse ecosystem profiles with banner, stats, and posts
 
-```
-src/
-├── components/
-│   ├── App.tsx                 # Main application
-│   ├── Sidebar.tsx             # Navigation sidebar
-│   ├── ConnectPanel.tsx        # MetaMask & X connection panel
-│   ├── GasConfirmModal.tsx     # Transaction signing modal
-│   ├── DashboardOverview.tsx   # Main dashboard
-│   ├── SearchPosts.tsx         # Post search
-│   ├── FindPeople.tsx          # People discovery
-│   ├── TwitterProfiles.tsx     # Profile viewer
-│   ├── TweetTimeline.tsx       # Tweet timeline
-│   ├── ProjectSentiment.tsx    # Sentiment analysis
-│   ├── FollowerGrowth.tsx      # Growth analytics
-│   └── MindshareRankings.tsx   # Mindshare leaderboard
-├── services/
-│   ├── metamask.ts             # MetaMask wallet integration
-│   ├── genlayer.ts             # GenLayer SDK wrapper
-│   └── xProfile.ts             # X profile management
-├── data/
-│   └── mockData.ts             # GenLayer ecosystem mock data
-└── utils/
-    └── format.ts               # Formatting utilities
-```
+### Tweet Timeline
+- Chronological feed with sentiment-colored timeline dots
+- Filter by account
+- Engagement metrics per tweet
 
-## 🦊 MetaMask Integration
+### Project Sentiment
+- Cards / stacked bar chart / radar chart views
+- 8 GenLayer sub-projects analyzed
+- Score rings and trend indicators
 
-### Connecting Your Wallet
+### Follower Growth
+- @GenLayer follower curve over 12 weeks
+- Gained vs lost bar chart
+- Engagement rate trend
+- Weekly breakdown table
 
-1. Click the **Connect** button in the top navigation
-2. Approve the MetaMask connection request
-3. If not on GenLayer network, the app will prompt to **add GenLayer Bradbury Testnet**
-4. Click **Approve** in MetaMask to add the network
-5. Your wallet is now connected to GenLayer!
+### Mindshare Rankings
+- Top 3 podium display
+- Full ranking table with mindshare bars
+- "My Mindshare" tab (when X account connected)
+- Horizontal bar chart view
 
-### Adding Network Manually
+---
 
-If you need to add GenLayer Bradbury Testnet manually:
+## 🐦 X API — Live Data (Optional)
 
-1. Open MetaMask → Settings → Networks → Add Network
-2. Enter the following details:
-   - **Network Name:** GenLayer Bradbury Testnet
-   - **RPC URL:** https://rpc-bradbury.genlayer.com
-   - **Chain ID:** 4221
-   - **Currency Symbol:** GEN
-   - **Block Explorer:** https://explorer-bradbury.genlayer.com
-3. Click **Save**
+By default the app uses mock data. To fetch **real posts** from X, set up the included proxy server.
 
-### Signing Transactions
-
-Every action that queries or modifies data requires a MetaMask signature:
-
-1. Click an action button (Search, Load Timeline, etc.)
-2. Review the transaction details in the confirmation modal
-3. Click **"Sign with MetaMask"**
-4. Confirm the signature in MetaMask popup
-5. Wait for confirmation on GenLayer network
-
-## 🔐 Security Notes
-
-- Private keys are never stored in the application
-- All signatures are handled securely via MetaMask
-- Transaction history is stored locally in browser storage
-- X profile connection is simulated (OAuth would be used in production)
-
-## 🛠 Tech Stack
-
-- **Framework**: React 19 + TypeScript
-- **Styling**: Tailwind CSS 4
-- **Charts**: Recharts
-- **Icons**: Lucide React
-- **Blockchain**: GenLayer via `genlayer-js` SDK
-- **Wallet**: MetaMask (EIP-1193)
-- **Build**: Vite
-
-## 📚 GenLayer Resources
-
-- [GenLayer Documentation](https://docs.genlayer.com)
-- [GenLayer Studio](https://studio.genlayer.com)
-- [GenLayerJS SDK](https://docs.genlayer.com/api-references/genlayer-js)
-- [GenLayer Faucet](https://testnet-faucet.genlayer.foundation/)
-- [GenLayer Twitter](https://x.com/GenLayer)
-
-## 🔗 Contract Addresses
-
-### Bradbury Testnet (Default)
-- Consensus Main: `0xe66B434bc83805f380509642429eC8e43AE9874a`
-- Staking: `0x4A4449E617F8D10FDeD0b461CadEf83939E821A5`
-
-### Studionet
-- Consensus Main: `0xb7278A61aa25c888815aFC32Ad3cC52fF24fE575`
-
-### Asimov Testnet
-- Consensus Main: `0xe66B434bc83805f380509642429eC8e43AE9874a`
-- Staking: `0x63Fa5E0bb10fb6fA98F44726C5518223F767687A`
-
-## 🐦 X (Twitter) API — Live Data
-
-By default, SocialPulse uses **mock data** for demonstration. To fetch **real posts** from X about @GenLayer, set up the included proxy server.
-
-### Quick Setup
+### Setup
 
 ```bash
-# 1. Install proxy server
 cd server
 npm install
-
-# 2. Configure your X API key
 cp .env.example .env
-# Edit .env → set X_BEARER_TOKEN=your_token_here
+# Edit .env → X_BEARER_TOKEN=your_token
 
-# 3. Start proxy
 npm start
-# → Running on http://localhost:3001
+# → http://localhost:3001
+```
 
-# 4. Start frontend (in another terminal)
-cd ..
-VITE_X_API_PROXY_URL=http://localhost:3001 npm run dev
+Then in the root `.env`:
+```
+VITE_X_API_PROXY_URL=http://localhost:3001
 ```
 
 ### Getting an X API Key
@@ -226,55 +182,90 @@ VITE_X_API_PROXY_URL=http://localhost:3001 npm run dev
 2. Create a project → Generate **Bearer Token**
 3. Paste into `server/.env`
 
-> **Pricing (2026):** X API uses pay-per-use (~$0.005/read). No free read tier.
->
-> **Cheaper alternatives:**
-> - [TwitterAPI.io](https://twitterapi.io) — $0.00015/read
-> - [GetXAPI](https://getxapi.com) — $0.05/1000 tweets
->
-> Set `X_API_BASE_URL` in `.env` to use alternatives.
-
-### Proxy Endpoints
-
-| Endpoint | Description |
-|----------|-------------|
-| `GET /api/x/search?q=@GenLayer` | Search tweets mentioning @GenLayer |
-| `GET /api/x/user/:username` | Get user profile |
-| `GET /api/x/user/:username/tweets` | Get user's recent tweets |
-| `GET /api/x/health` | Health check + API status |
-
-### How It Works
-
-```
-Frontend (React) → Proxy Server (Node.js) → X API v2
-                   ↑                         ↑
-              Your server              Bearer Token
-              localhost:3001           (your API key)
-```
-
-The frontend never touches API keys directly. The proxy server stores your Bearer Token securely and forwards requests to the X API.
-
-When no proxy is configured, the app shows **📦 Demo Mode** and uses mock data.
-
-## 🔄 Development Workflow
-
-```bash
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-```
-
-## 📄 License
-
-MIT License — see [LICENSE](LICENSE) for details.
+> **X API Pricing (2026):** Pay-per-use ~$0.005/read. No free read tier.
+> **Cheaper alternatives:** [TwitterAPI.io](https://twitterapi.io) ($0.00015/read), [GetXAPI](https://getxapi.com) ($0.05/1K tweets).
+> Set `X_API_BASE_URL` in `server/.env` to use alternatives.
 
 ---
 
-<p align="center">
-  Built with ❤️ for the <a href="https://genlayer.com">GenLayer</a> ecosystem
-</p>
+## 📁 Project Structure
+
+```
+socialpulse/
+├── contracts/
+│   ├── social_intelligence.py   # GenLayer Intelligent Contract
+│   └── deploy.ts                # Deploy script for Bradbury Testnet
+├── server/
+│   ├── index.js                 # X API proxy server
+│   ├── package.json
+│   ├── .env.example
+│   └── README.md
+├── src/
+│   ├── components/
+│   │   ├── ConnectPanel.tsx      # MetaMask + X connection panel
+│   │   ├── GasConfirmModal.tsx   # Transaction signing modal
+│   │   ├── DashboardOverview.tsx # Main dashboard with contract status
+│   │   ├── SearchPosts.tsx       # Post search with mindshare sidebar
+│   │   ├── FindPeople.tsx        # User search + profile detail
+│   │   ├── TwitterProfiles.tsx   # My Profile + Explore
+│   │   ├── TweetTimeline.tsx     # Chronological feed
+│   │   ├── ProjectSentiment.tsx  # Sentiment analysis views
+│   │   ├── FollowerGrowth.tsx    # Growth analytics
+│   │   ├── MindshareRankings.tsx # Mindshare leaderboard
+│   │   └── Sidebar.tsx           # Navigation
+│   ├── services/
+│   │   ├── metamask.ts           # MetaMask wallet + chain management
+│   │   ├── genlayer.ts           # GenLayer SDK wrapper
+│   │   ├── contract.ts           # Intelligent Contract read/write
+│   │   ├── xApi.ts               # X API (live + mock fallback)
+│   │   └── xProfile.ts           # X profile connection
+│   ├── data/
+│   │   └── mockData.ts           # Mock data for demo mode
+│   ├── utils/
+│   │   └── format.ts             # Formatting helpers
+│   ├── App.tsx                   # Main app with routing
+│   ├── main.tsx                  # Entry point
+│   └── index.css                 # Tailwind + custom styles
+├── .env.example
+├── .gitignore
+├── LICENSE
+├── README.md
+├── package.json
+├── tsconfig.json
+├── vite.config.ts
+└── index.html
+```
+
+---
+
+## 🛠 Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Blockchain** | GenLayer (Bradbury Testnet, chain 4221) |
+| **Smart Contract** | Python Intelligent Contract (`gl.Contract`) |
+| **Frontend SDK** | `genlayer-js` |
+| **Wallet** | MetaMask (EIP-1193) |
+| **Framework** | React 19 + TypeScript |
+| **Styling** | Tailwind CSS 4 |
+| **Charts** | Recharts |
+| **Icons** | Lucide React |
+| **Build** | Vite |
+
+---
+
+## 📚 GenLayer Resources
+
+- [GenLayer Docs](https://docs.genlayer.com)
+- [GenLayer Studio](https://studio.genlayer.com)
+- [GenLayerJS SDK](https://docs.genlayer.com/api-references/genlayer-js)
+- [Intelligent Contracts Guide](https://docs.genlayer.com/developers/intelligent-contracts/introduction)
+- [GenLayer Faucet](https://testnet-faucet.genlayer.foundation/)
+- [GenLayer Explorer](https://explorer-bradbury.genlayer.com)
+- [GenLayer on X](https://x.com/GenLayer)
+
+---
+
+## 📄 License
+
+MIT — see [LICENSE](LICENSE).
